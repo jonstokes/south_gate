@@ -11,7 +11,7 @@ class GuestTransactionsController < ApplicationController
     @access_point_address = params[:ap]
     @url = params[:url]
 
-    @packages = FindPackagesForDeviceAddress.call(device_address: @device_address)
+    @packages = FindPackagesForDeviceAddress.call(device_address: @device_address).packages
 
     # Fill in billing info, guest info, etc.
     @guest_transaction = GuestTransaction.new
@@ -43,5 +43,4 @@ class GuestTransactionsController < ApplicationController
       transaction: [:first_name, :last_name, :cc_number, :city, :state, :zip, :security_code]
     )
   end
-
 end
