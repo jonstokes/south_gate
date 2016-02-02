@@ -1,4 +1,4 @@
-class PortalController < ApplicationController
+class GuestTransactionsController < ApplicationController
   # GET /guest
   def new
     # This just picks up the webhook, parses it, and shows
