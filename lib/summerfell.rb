@@ -1,8 +1,12 @@
 module Summerfell
   def self.conn
-    @conn ||= Faraday.new(url: Figaro.env.app_host) do |faraday|
-      faraday.response :logger
-      faraday.adapter  Faraday.default_adapter
+    @conn ||= begin
+      opts = url: Figaro.env.app_host
+      opts.merge!(ssl: { ca_path: Figaro.env.ca_path }) if Rails.env.production?
+      Faraday.new(opts) do |faraday|
+        faraday.response :logger
+        faraday.adapter  Faraday.default_adapter
+      end
     end
   end
 
