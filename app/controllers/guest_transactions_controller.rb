@@ -1,4 +1,6 @@
 class GuestTransactionsController < ApplicationController
+  before_filter :redirect_authorized_guests
+
   # GET /guest
   def new
     # This just picks up the webhook, parses it, and shows
@@ -7,13 +9,15 @@ class GuestTransactionsController < ApplicationController
     # From https://community.ubnt.com/t5/UniFi-Wireless/external-hotspot-portal/td-p/419845
     # /guest/?id=20:aa:4b:95:bc:9d&ap=00:27:22:e4:ce:79&t=1363610350&url=http://facebook.com/&ssid=Test%20SSID
 
+    # For hidden fields
     @device_address = params[:id]
     @access_point_address = params[:ap]
     @url = params[:url]
 
+    # Package selection
     @packages = FindPackagesForDeviceAddress.call(device_address: @device_address).packages
 
-    # Fill in billing info, guest info, etc.
+    # New guest transaction
     @guest_transaction = GuestTransaction.new
   end
 
@@ -37,6 +41,12 @@ class GuestTransactionsController < ApplicationController
 
   private
 
+  def redirect_authorized_guests
+    if GuestAuthorization.call(device_address: guest_transaction_params[:device_address]).success?
+      redirect_to(guest_transaction_params[:url] || "http://www.summerfell.com/")
+    end
+  end
+
   def guest_transaction_params
     params.permit(
       :device_address,
@@ -45,6 +55,8 @@ class GuestTransactionsController < ApplicationController
       :first_name,
       :last_name,
       :cc_number,
+      :cc_expiry_month,
+      :cc_expiry_year,
       :city,
       :state,
       :zip,

@@ -3,23 +3,14 @@ class FindPackagesForDeviceAddress
 
   expects :device_address
   provides :packages
-  
-  provides :conn do
-    Faraday.new(url: Figaro.env.app_host) do |faraday|
-      faraday.response :logger
-      faraday.adapter  Faraday.default_adapter
-    end
-  end
 
-  provides :response do
-    raw = conn.get do |req|
-      req.url "api/v1/packages/available", device_address: device_address
-    end
-
-    JSON.parse(raw.body)
+  provides(:response) do
+    Summerfell.get("api/v1/packages/available.json", device_address: device_address)
   end
 
   def call
-    package_list
+    self.packages = response.map do |data|
+      Package.new(data)
+    end
   end
 end

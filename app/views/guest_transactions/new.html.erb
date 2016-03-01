@@ -9,9 +9,13 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
 <%= render "shared/form_errors", model: @guest_transaction %>
 
 <%= form_for @guest_transaction, html: {role: "form"} do %>
-  <%= collection_radio_buttons(@guest_transaction, :package_id, @packages, :id, :name_with_description, {}, {}) do |b| %>
+  <%= collection_radio_buttons(@guest_transaction, :package_id, @packages, :id, :description, {}, {}) do |b| %>
     <%= b.label(class: "control-label") { b.radio_button(class: "form-control") } %>
   <% end %>
+
+  <%= f.hidden_field(:device_address, value: @device_address) %>
+  <%= f.hidden_field(:access_point_address, value: @access_point_address) %>
+  <%= f.hidden_field(:url, value: @url) %>
 
   <%= f.label :first_name, class: "control-label" %>
   <%= f.text_field :first_name, class: "form-control" %>
@@ -19,8 +23,17 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
   <%= f.label :last_name, class: "control-label" %>
   <%= f.text_field :last_name, class: "form-control" %>
 
+  <%= f.label :email, class: "control-label" %>
+  <%= f.email_field :email, class: "form-control", placeholder: "Enter your email if you want a receipt." %>
+
   <%= f.label :cc_number, "Credit Card Number", class: "control-label" %>
   <%= f.text_field :cc_number, class: "form-control" %>
+
+  <%= f.label :cc_expiry_month, "Credit Card Expiration Month", class: "control-label" %>
+  <%= f.select :cc_expiry_month, (1..12).to_a, {}, class: "form-control", size: 4 %>
+
+  <%= f.label :cc_expiry_year, "Credit Card Expiration Year", class: "control-label" %>
+  <%= f.text_field :cc_expiry_year, (2016..2030).to_a, {}, class: "form-control", size: 8 %>
 
   <%= f.label :security_code, class: "control-label" %>
   <%= f.text_field :security_code, class: "form-control" %>
