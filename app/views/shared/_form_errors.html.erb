@@ -1,0 +1,15 @@
+<% if model.errors.any? %>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-info-circle"></i> <%= pluralize(model.errors.count, "error") %> prohibited this build from being saved:
+        <ul>
+          <% model.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div><!-- /.row -->
+<% end %>

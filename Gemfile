@@ -11,6 +11,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'troupe'
 gem 'virtus'
 gem 'figaro'
+gem 'city-state'
 
 group :development, :test do
   gem 'byebug'

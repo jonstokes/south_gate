@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Guest Transactions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @guest_transactions.each do |guest_transaction| %>
+      <tr>
+        <td><%= link_to 'Show', guest_transaction %></td>
+        <td><%= link_to 'Edit', edit_guest_transaction_path(guest_transaction) %></td>
+        <td><%= link_to 'Destroy', guest_transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Guest transaction', new_guest_transaction_path %>

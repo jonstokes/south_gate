@@ -39,8 +39,17 @@ class GuestTransactionsController < ApplicationController
 
   def guest_transaction_params
     params.permit(
-      guest: [:device_address, :access_point_address, :url],
-      transaction: [:first_name, :last_name, :cc_number, :city, :state, :zip, :security_code]
+      :device_address,
+      :access_point_address,
+      :url,
+      :first_name,
+      :last_name,
+      :cc_number,
+      :city,
+      :state,
+      :zip,
+      :security_code,
+      :package_id
     )
   end
 end
