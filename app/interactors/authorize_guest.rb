@@ -1,5 +1,5 @@
 class AuthorizeGuest
-  include :troupe
+  include Troupe
 
   expects :params
 
@@ -8,12 +8,12 @@ class AuthorizeGuest
   end
 
   provides(:response) do
-    Summerfell.post("/api/vi/guests.json", params)
+    Summerfell.post("/api/v1/guests.json", params)
   end
 
   def call
     context.fail! unless guest_transaction.valid?
-    context.succeed! and return if resonse['status'] == 'success'
+    return if response['status'] == 'success'
 
     response['errors'].each do |attribute, messages|
       guest_transaction.errors.add(attribute, messages.first)

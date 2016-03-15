@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe "CheckGuestAuthorization" do
 
-  let(:device_address) { "01-02-03-04-05-06" }
+  let(:device_address) { "01:02:03:04:05:06" }
 
   describe "call" do
     it "returns true if the guest is authorized" do

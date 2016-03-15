@@ -17,9 +17,9 @@ class GuestTransaction
   attribute :security_code
   attribute :package_id
 
-  validates :package_id,                presence: true, format: { with: /\A([0-9a-f]{4}-?){7}[0-9a-f]{4}\z/i }
-  validates :device_address,            presence: true, format: { with: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/ }
-  validates :access_point_address,      presence: true, format: { with: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/ }
+  validates :package_id,                presence: true, format: { with: /\A([0-9a-f]{4}-?){7}[0-9a-f]{4}\z/i, multiline: true }
+  validates :device_address,            presence: true, format: { with: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/, multiline: true }
+  validates :access_point_address,      presence: true, format: { with: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/, multiline: true }
   validates :url,                       format: { with: URI.regexp }, if: ->{ url.present? }
   validates :first_name, :last_name,    presence: true, if: ->{ package_id != Figaro.env.free_package_id }
   validates :cc_number, :security_code, presence: true, if: ->{ package_id != Figaro.env.free_package_id }
