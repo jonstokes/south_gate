@@ -12,6 +12,7 @@ gem 'troupe'
 gem 'virtus'
 gem 'figaro'
 gem 'city-state'
+gem 'faraday'
 
 group :development, :test do
   gem 'byebug'
@@ -20,6 +21,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.2'
   gem 'rspec-rails'
   gem 'forgery'
+  gem 'webmock'
 end
 
 group :development do

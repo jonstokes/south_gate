@@ -42,7 +42,7 @@ class GuestTransactionsController < ApplicationController
   private
 
   def redirect_authorized_guests
-    if GuestAuthorization.call(device_address: guest_transaction_params[:device_address]).success?
+    if CheckGuestAuthorization.call(device_address: guest_transaction_params[:device_address]).success?
       redirect_to(guest_transaction_params[:url] || "http://www.summerfell.com/")
     end
   end
