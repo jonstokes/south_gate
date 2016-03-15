@@ -18,9 +18,12 @@ group :development, :test do
   gem 'byebug'
   gem 'pry-rails'
   gem 'binding_of_caller'
+  gem 'forgery'
+end
+
+group :test do
   gem 'factory_girl_rails', '~> 4.2'
   gem 'rspec-rails'
-  gem 'forgery'
   gem 'webmock'
 end
 
