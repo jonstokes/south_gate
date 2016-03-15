@@ -9,7 +9,8 @@ class FindPackagesForDeviceAddress
   end
 
   def call
-    self.packages = response.map do |data|
+    context.fail! unless response['status'] == 'success'
+    self.packages = response['packages'].map do |data|
       Package.new(data)
     end
   end
