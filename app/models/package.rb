@@ -1,6 +1,7 @@
 class Package
   include Virtus.model
 
+  attribute :id, String
   attribute :name, String
   attribute :description, String
   attribute :charged_as, String

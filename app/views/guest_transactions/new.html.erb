@@ -8,7 +8,7 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
 
 <%= render "shared/form_errors", model: @guest_transaction %>
 
-<%= form_for @guest_transaction, html: {role: "form"} do %>
+<%= form_for @guest_transaction, html: {role: "form"} do |f| %>
   <%= collection_radio_buttons(@guest_transaction, :package_id, @packages, :id, :description, {}, {}) do |b| %>
     <%= b.label(class: "control-label") { b.radio_button(class: "form-control") } %>
   <% end %>
@@ -33,7 +33,7 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
   <%= f.select :cc_expiry_month, (1..12).to_a, {}, class: "form-control", size: 4 %>
 
   <%= f.label :cc_expiry_year, "Credit Card Expiration Year", class: "control-label" %>
-  <%= f.text_field :cc_expiry_year, (2016..2030).to_a, {}, class: "form-control", size: 8 %>
+  <%= f.select :cc_expiry_year, (2016..2030).to_a, {}, class: "form-control", size: 8 %>
 
   <%= f.label :security_code, class: "control-label" %>
   <%= f.text_field :security_code, class: "form-control" %>
@@ -42,10 +42,10 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
   <%= f.text_field :city, class: "form-control" %>
 
   <%= f.label :state, class: "control-label" %>
-  <%= f.select :state, CS.states(:us).values class: "form-control" %>
+  <%= f.select :state, CS.states(:us).values, {}, class: "form-control" %>
 
   <%= f.label :zip, "Zip Code", class: "control-label" %>
   <%= f.text_field :zip, class: "form-control" %>
 
-  <%= f.submit, class: "btn btn-default" %>
+  <%= f.submit 'Submit', class: "btn btn-default" %>
 <% end %>
