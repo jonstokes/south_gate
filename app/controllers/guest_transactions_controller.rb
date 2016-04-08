@@ -29,18 +29,19 @@ class GuestTransactionsController < ApplicationController
     @guest_transaction = authorize_guest.guest_transaction
 
     respond_to do |format|
-      format.html do
-        if authorize_guest.success?
-          puts "-------- redirecting to _#{authorize_guest.url} or _#{Figaro.env.app_host}"
+      if authorize_guest.success?
+        format.html {
           redirect_to(authorize_guest.url || Figaro.env.app_host)
-        else
+        }
+      else
+        format.html {
           # Package selection
           @packages = FindPackagesForDeviceAddress.call(device_address: @device_address).packages
 
           # New guest transaction
           @guest_transaction = GuestTransaction.new
           render :new
-        end
+        }
       end
     end
   end
