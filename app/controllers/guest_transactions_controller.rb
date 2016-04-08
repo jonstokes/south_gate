@@ -12,13 +12,17 @@ class GuestTransactionsController < ApplicationController
     # For hidden fields
     @device_address = params[:id]
     @access_point_address = params[:ap]
-    @url = params[:url]
+    @url = redirect_url
 
     # Package selection
     @packages = FindPackagesForDeviceAddress.call(device_address: @device_address).packages
 
     # New guest transaction
     @guest_transaction = GuestTransaction.new
+  end
+
+  def show
+    @guest_transaction = FindGuestTransaction.perform(id: params[:id])
   end
 
   def create
@@ -31,15 +35,12 @@ class GuestTransactionsController < ApplicationController
     respond_to do |format|
       if authorize_guest.success?
         format.html {
-          redirect_to(authorize_guest.url || Figaro.env.app_host)
+          redirect_to @guest_transaction
         }
       else
         format.html {
           # Package selection
           @packages = FindPackagesForDeviceAddress.call(device_address: @device_address).packages
-
-          # New guest transaction
-          @guest_transaction = GuestTransaction.new
           render :new
         }
       end
@@ -55,8 +56,10 @@ class GuestTransactionsController < ApplicationController
   end
 
   def redirect_url
-    # TODO: Check if this is valid, otherwise do Figaro.env.app_host
-    guest_transaction_params[:url] || Figaro.env.app_host
+    return Figaro.env.app_host unless guest_transaction_params[:url] && URI.parse(guest_transaction_params[:url]).host
+    guest_transaction_params[:url]
+  rescue URI::InvalidURIError
+    Figaro.env.app_host
   end
 
   def guest_transaction_params

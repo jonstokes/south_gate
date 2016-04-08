@@ -2,12 +2,15 @@ class GuestTransaction
   include Virtus.model
   include ActiveModel::Model
 
+  # Guest
   attribute :device_address
   attribute :access_point_address
-  attribute :url
   attribute :first_name
   attribute :last_name
   attribute :email
+  attribute :url
+
+  # Transaction
   attribute :cc_number
   attribute :cc_expiry_month
   attribute :cc_expiry_year
