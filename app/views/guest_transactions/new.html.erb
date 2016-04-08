@@ -9,9 +9,7 @@ Welcome to the Summerfell Wi-Fi network. Please select a plan from the options b
 <%= render "shared/form_errors", model: @guest_transaction %>
 
 <%= form_for @guest_transaction, html: {role: "form"} do |f| %>
-  <%= collection_radio_buttons(@guest_transaction, :package_id, @packages, :id, :description, {}, {}) do |b| %>
-    <%= b.label(class: "control-label") { b.radio_button(class: "form-control") } %>
-  <% end %>
+  <%= collection_radio_buttons(:guest_transaction, :package_id, @packages, :id, :name) %>
 
   <%= f.hidden_field(:device_address, value: @device_address) %>
   <%= f.hidden_field(:access_point_address, value: @access_point_address) %>

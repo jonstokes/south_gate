@@ -31,7 +31,7 @@ class GuestTransactionsController < ApplicationController
     respond_to do |format|
       format.html do
         if authorize_guest.success?
-          redirect_to authorize_guest.url
+          redirect_to(authorize_guest.url || Figaro.env.app_host)
         else
           render :new
         end
@@ -43,8 +43,13 @@ class GuestTransactionsController < ApplicationController
 
   def redirect_authorized_guests
     if CheckGuestAuthorization.call(device_address: guest_transaction_params[:device_address]).success?
-      redirect_to(guest_transaction_params[:url] || "http://www.summerfell.com/")
+      redirect_to redirect_url
     end
+  end
+
+  def redirect_url
+    # TODO: Check if this is valid, otherwise do Figaro.env.app_host
+    guest_transaction_params[:url] || Figaro.env.app_host
   end
 
   def guest_transaction_params
