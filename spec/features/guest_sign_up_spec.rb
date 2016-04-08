@@ -41,6 +41,11 @@ RSpec.describe "Guest Sign Up" do
     packages: packages
   }}
 
+  before do
+    stub_request(:get, Figaro.env.app_host).
+       to_return(status: 200, body: "<html><body>Win!</body></html>", headers: {})
+  end
+
   describe "Admitting an existing guest" do
     before do
       stub_request(:get, "http://www.summerfell.com/api/v1/guests/authorize").
@@ -61,6 +66,9 @@ RSpec.describe "Guest Sign Up" do
 
       stub_request(:get, "http://www.summerfell.com/api/v1/packages/available.json?device_address=#{initial_guest_params[:id]}").
         to_return(:status => 200, :body => summerfell_response.to_json, :headers => {})
+
+      stub_request(:post, "http://www.summerfell.com/api/v1/guests.json").
+        to_return(:status => 200, :body => { status: "success" }.to_json, :headers => {})
     end
 
     it "shows all the packages available" do
@@ -76,7 +84,7 @@ RSpec.describe "Guest Sign Up" do
     it "lets a user sign up for the free package" do
       visit new_guest_transaction_path(initial_guest_params)
 
-      choose free_package.name
+      choose free_package[:name]
       click_on "Submit"
 
       # Expect to show thank you page
@@ -85,7 +93,7 @@ RSpec.describe "Guest Sign Up" do
     it "lets a user sign up for the paid package" do
       visit new_guest_transaction_path(initial_guest_params)
 
-      choose paid_package.name
+      choose paid_package[:name]
       click_on "Submit"
 
       # Expect to show thank you page

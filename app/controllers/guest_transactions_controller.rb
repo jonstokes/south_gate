@@ -23,7 +23,7 @@ class GuestTransactionsController < ApplicationController
 
   def create
     authorize_guest = AuthorizeGuest.call(
-      params: guest_transaction_params
+      params: guest_transaction_params[:guest_transaction]
     )
 
     @guest_transaction = authorize_guest.guest_transaction
@@ -54,19 +54,25 @@ class GuestTransactionsController < ApplicationController
 
   def guest_transaction_params
     params.permit(
-      :device_address,
-      :access_point_address,
+      :id,
+      :ap,
       :url,
-      :first_name,
-      :last_name,
-      :cc_number,
-      :cc_expiry_month,
-      :cc_expiry_year,
-      :city,
-      :state,
-      :zip,
-      :security_code,
-      :package_id
+      guest_transaction: [
+        :device_address,
+        :access_point_address,
+        :url,
+        :first_name,
+        :last_name,
+        :email,
+        :cc_number,
+        :cc_expiry_month,
+        :cc_expiry_year,
+        :city,
+        :state,
+        :zip,
+        :security_code,
+        :package_id
+      ]
     )
   end
 end
